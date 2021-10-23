@@ -3,10 +3,10 @@
 import { jsx, css } from "@emotion/react";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import Loader from "../loader";
 import BackgroundImg from "../../assets/img/background.png";
 
 const Index = (props) => {
+  const [isErrorImg, setIsErrorImg] = useState(false);
   const history = useHistory();
   const { id, total = 0 } = props;
 
@@ -24,7 +24,7 @@ const Index = (props) => {
           transform: scale(1.05);
         }
         border-radius: 10px;
-        background-image: url("${BackgroundImg}");
+        ${!isErrorImg ? `background-image: url("${BackgroundImg}");` : ""}
       `}
       onClick={() =>
         history.push(`/${props.name}`, { image_pokemon: props.artwork })
@@ -38,7 +38,17 @@ const Index = (props) => {
           height: 100%;
         `}
       >
-        <img width="100%" src={props.artwork} alt={props.name} />
+        <img
+          width="100%"
+          src={props.artwork}
+          alt={props.name}
+          onError={(e) => {
+            setIsErrorImg(true);
+            e.target.onerror = null;
+            e.target.src = BackgroundImg;
+            e.target.style = `object-fit: contain;`;
+          }}
+        />
         <div
           css={css`
             display: flex;
