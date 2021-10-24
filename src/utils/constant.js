@@ -26,3 +26,5 @@ export const color = {
   unknown: "f2f2f2",
   shadow: "f2f2f2",
 };
+
+export const localStorageKey = process.env.REACT_APP_LOCAL_KEY;

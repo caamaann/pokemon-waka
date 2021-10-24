@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import { useState, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import MenuItems from "./menuItem";
 import NavLink from "../navLink";
 import { useClickaway } from "../hooks/ClickawayHooks";
@@ -36,8 +36,9 @@ const Navbar = () => {
         align-items: center;
         font-size: 1.2rem;
         margin-bottom: 1rem;
-        @media (max-width: 960px) {
-          position: relative;
+        position: relative;
+        @media (min-width: 960px) {
+          position: static;
         }
       `}
     >
@@ -63,20 +64,20 @@ const Navbar = () => {
       <div
         // className="menu-icon"
         css={css`
-          display: none;
-          @media (max-width: 960px) {
-            color: #fff;
-            cursor: pointer;
-            display: block;
-            position: absolute;
-            top: -6px;
-            left: 45px;
-            transform: translate(-100%, 60%);
-            font-size: 1.8rem;
-            transition: all 0.5s ease;
-            &:hover {
-              color: #d5a94e;
-            }
+          color: #fff;
+          cursor: pointer;
+          display: block;
+          position: absolute;
+          top: -6px;
+          left: 45px;
+          transform: translate(-100%, 60%);
+          font-size: 1.8rem;
+          transition: all 0.5s ease;
+          &:hover {
+            color: #d5a94e;
+          }
+          @media (min-width: 960px) {
+            display: none;
           }
         `}
         onClick={() => handleClick()}
@@ -95,23 +96,23 @@ const Navbar = () => {
           margin-right: 2rem;
           transition: all 0.5s ease;
           @media (max-width: 960px) {
+            background: linear-gradient(
+              90deg,
+              rgba(0, 0, 0, 1) 0%,
+              rgba(2, 2, 70, 1) 100%
+            );
             display: flex;
             flex-direction: column;
             width: 100%;
             height: 100px;
             position: absolute;
             top: 80px;
-            left: -100%;
             opacity: 1;
             ${clicked
-              ? `background: linear-gradient(
-                90deg,
-                rgba(0, 0, 0, 1) 0%,
-                rgba(2, 2, 70, 1) 100%
-              );
+              ? `
               left: 0;
               z-index: 1`
-              : ""}
+              : "left: -100%;"}
           }
         `}
       >

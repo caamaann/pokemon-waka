@@ -1,7 +1,7 @@
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 const Index = (props) => {
-  const { size, title, children, onHide } = props;
+  const { size, title, children } = props;
   return (
     <Modal
       {...props}
@@ -11,15 +11,12 @@ const Index = (props) => {
       backdrop="static"
       keyboard={false}
     >
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
           {title || "Modal"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
-      <Modal.Footer>
-        <Button onClick={onHide}>Close</Button>
-      </Modal.Footer>
     </Modal>
   );
 };

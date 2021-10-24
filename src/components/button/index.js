@@ -33,8 +33,9 @@ const Button = ({ leftIcon, rightIcon, children, type, onClick, disabled }) => {
             rgba(2, 2, 70, 0.95) 100%
           );
         }
-        @media (max-width: 960px) {
-          width: 100%;
+        width: 100%;
+        @media (min-width: 960px) {
+          width: initial;
         }
       `}
     >
