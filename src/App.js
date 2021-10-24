@@ -25,15 +25,19 @@ function App() {
         draggable
         pauseOnHover
       />
-      {/* <Router> */}
-      <Switch>
-        <Layout>
-          <Route path="/my-pokemon" component={MyPokemon} />
-          <Route path="/detail-pokemon/:name" exact component={DetailPokemon} />
-          <Route path="/" exact component={Index} />
-        </Layout>
-      </Switch>
-      {/* </Router> */}
+      <Router>
+        <Switch>
+          <Layout>
+            <Route path="/my-pokemon" component={MyPokemon} />
+            <Route
+              path="/detail-pokemon/:name"
+              exact
+              component={DetailPokemon}
+            />
+            <Route path="/" exact component={Index} />
+          </Layout>
+        </Switch>
+      </Router>
     </>
   );
 }

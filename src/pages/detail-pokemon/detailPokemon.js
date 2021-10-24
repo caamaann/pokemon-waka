@@ -1,5 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
+// eslint-disable-next-line
 import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import Container from "../../components/container";
@@ -13,6 +14,7 @@ import { toastSuccess, toastError } from "../../components/toast";
 import Modal from "./modalNickname";
 import { Table } from "react-bootstrap";
 import Pagination from "../../components/pagination";
+import ErrorState from "../../components/errorState";
 
 const GET_POKEMON = gql`
   query pokemon($name: String!) {
@@ -98,21 +100,16 @@ const Index = ({ location }) => {
     console.log("Data: ", data);
   }
 
-  const catchPokemon = async (name) => {
+  const catchPokemon = (name) => {
     setCatching(true);
     let isFailed = Probability() === 0;
-    await delay(2000);
-    setCatching(false);
     if (isFailed) {
       toastError("Pokemon Escape, Try Again!");
     } else {
       toastSuccess(`All right! ${name} was caught!, give name your Pokemon!`);
       setModalShow(true);
     }
-  };
-
-  const delay = async (ms = 1000) => {
-    return await new Promise((resolve) => setTimeout(resolve, ms));
+    setCatching(false);
   };
 
   const Type = ({ title }) => {
@@ -207,6 +204,7 @@ const Index = ({ location }) => {
       </>
     );
   };
+
   return (
     <Container>
       <Modal
@@ -227,7 +225,7 @@ const Index = ({ location }) => {
           <Loader />
         </div>
       ) : error ? (
-        <p>Error: {error}</p>
+        <ErrorState />
       ) : (
         <>
           <div
@@ -302,6 +300,7 @@ const Index = ({ location }) => {
               <Button
                 onClick={() => catchPokemon(pokemon_name)}
                 disabled={catching}
+                data-testid="btnCatchPokemon"
               >
                 Catch Pokemon {pokemon_name}
               </Button>
@@ -408,16 +407,6 @@ const Index = ({ location }) => {
                 `}
               >
                 {createTable(pokemon.moves)}
-                {/* {pokemon.moves.map((item, idx) => (
-                  <span
-                    key={idx}
-                    css={css`
-                      font-size: 1rem;
-                    `}
-                  >
-                    {item.move.name}
-                  </span>
-                ))} */}
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ import BackgroundImg from "../../assets/img/background.png";
 
 const Index = (props) => {
   const [isErrorImg, setIsErrorImg] = useState(false);
+  const [isLoadImg, setIsLoadImg] = useState(false);
   const history = useHistory();
   const { id, total = 0 } = props;
 
@@ -30,6 +31,7 @@ const Index = (props) => {
           image_pokemon: props.artwork,
         })
       }
+      data-testid="clickToDetail"
     >
       <div
         css={css`
@@ -40,9 +42,13 @@ const Index = (props) => {
         `}
       >
         <img
+          css={css`
+            ${isLoadImg ? "" : "visibility: hidden;"}
+          `}
           width="100%"
           src={props.artwork}
           alt={props.name}
+          onLoad={() => setIsLoadImg(true)}
           onError={(e) => {
             setIsErrorImg(true);
             e.target.onerror = null;

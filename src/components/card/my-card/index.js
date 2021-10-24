@@ -102,6 +102,7 @@ const Index = ({ data, onClick, disabled }) => {
                 width: 100%;
               `}
               disabled={disabled}
+              data-testid="btnReleasePokemon"
             >
               Release
             </Button>

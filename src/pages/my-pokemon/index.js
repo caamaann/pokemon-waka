@@ -1,5 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
+// eslint-disable-next-line
 import React, { useState, useEffect } from "react";
 import Container from "../../components/container";
 import Card from "../../components/card/my-card";
@@ -14,21 +15,17 @@ const Index = () => {
   const [isRelease, setIsRelease] = useState(false);
   const [dataOwnedPokemon, setDataOwnedPokemon] = useState([]);
   const [page, setPage] = useState(1);
-  // const dataOwnedPokemon = getMyPokemon().owned_pokemon;
   const length = 8;
 
   let total = Math.ceil(dataOwnedPokemon.length / length);
 
-  const releasePokemon = async (data) => {
+  const releasePokemon = (data) => {
     setIsRelease(true);
     let index = dataOwnedPokemon
       .map(function (e) {
         return e.local_id;
       })
       .indexOf(data.local_id);
-
-    await delay(1000);
-    setIsRelease(false);
 
     if (index > -1) {
       dataOwnedPokemon.splice(index, 1);
@@ -38,6 +35,7 @@ const Index = () => {
     } else {
       toastError(`Failed to release pokemon`);
     }
+    setIsRelease(false);
   };
 
   useEffect(() => {
@@ -45,10 +43,6 @@ const Index = () => {
   }, []);
 
   const getData = () => setDataOwnedPokemon(getMyPokemon().owned_pokemon);
-
-  const delay = async (ms = 1000) => {
-    return await new Promise((resolve) => setTimeout(resolve, ms));
-  };
 
   return (
     <Container>
