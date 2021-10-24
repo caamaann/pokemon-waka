@@ -24,11 +24,15 @@ const Index = (props) => {
           transform: scale(1.05);
         }
         border-radius: 10px;
-        ${!isErrorImg ? `background-image: url("${BackgroundImg}");` : ""}
+        ${!isErrorImg
+          ? `background-image: url("${BackgroundImg}");
+          background-size: contain;
+          background-repeat: no-repeat;`
+          : ""}
       `}
       onClick={() =>
         history.push(`/detail-pokemon/${props.name}`, {
-          image_pokemon: props.artwork,
+          image_pokemon: props.image,
         })
       }
       data-testid="clickToDetail"
@@ -41,21 +45,29 @@ const Index = (props) => {
           height: 100%;
         `}
       >
-        <img
+        <div
           css={css`
-            ${isLoadImg ? "" : "visibility: hidden;"}
+            width: 170px;
+            height: 170px;
           `}
-          width="100%"
-          src={props.artwork}
-          alt={props.name}
-          onLoad={() => setIsLoadImg(true)}
-          onError={(e) => {
-            setIsErrorImg(true);
-            e.target.onerror = null;
-            e.target.src = BackgroundImg;
-            e.target.style = `object-fit: contain;`;
-          }}
-        />
+        >
+          <img
+            css={css`
+              ${isLoadImg ? "" : "visibility: hidden;"}
+            `}
+            width="170px"
+            height="170px"
+            src={props.image}
+            alt={props.name}
+            onLoad={() => setIsLoadImg(true)}
+            onError={(e) => {
+              setIsErrorImg(true);
+              e.target.onerror = null;
+              e.target.src = BackgroundImg;
+              e.target.style = `object-fit: contain;`;
+            }}
+          />
+        </div>
         <div
           css={css`
             display: flex;
@@ -65,45 +77,26 @@ const Index = (props) => {
         >
           <div
             css={css`
-              display: flex;
-              justify-content: space-between;
-              color: #919191;
-              font-size: 1rem;
-              @media (min-width: 960px) {
-                font-size: 12px;
-              }
-            `}
-          >
-            <span>#{number}</span>
-            <span
-              css={css`
-                text-align: right;
-              `}
-            >
-              Total Owned
-            </span>
-          </div>
-          <div
-            css={css`
-              display: flex;
-              justify-content: space-between;
+              text-align: center;
               font-weight: 600;
-              font-size: 1.5rem;
+              font-size: 1.25rem;
               @media (min-width: 960px) {
-                font-size: 20px;
+                font-size: 1rem;
               }
             `}
           >
             <span>
               {props.name.charAt(0).toUpperCase() + props.name.slice(1)}
             </span>
-            <span
-              css={css`
-                text-align: right;
-              `}
-            >
-              {total}
-            </span>
+          </div>
+          <div
+            css={css`
+              color: #919191;
+              font-size: 0.75rem;
+              text-align: center;
+            `}
+          >
+            <span>Total Owned: {total}</span>
           </div>
         </div>
       </div>

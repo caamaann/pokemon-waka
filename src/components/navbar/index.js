@@ -3,7 +3,6 @@
 import { jsx, css } from "@emotion/react";
 import { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import MenuItems from "./menuItem";
 import NavLink from "../navLink";
 import { useClickaway } from "../hooks/ClickawayHooks";
 
@@ -59,7 +58,7 @@ const Navbar = () => {
           setClicked(false);
         }}
       >
-        Pokemon <span className="material-icons">catching_pokemon</span>
+        Pokemon Waka
       </h4>
       <div
         // className="menu-icon"
@@ -116,18 +115,9 @@ const Navbar = () => {
           }
         `}
       >
-        {MenuItems.map((item, idx) => {
-          return (
-            <li key={idx} onClick={() => setClicked(false)}>
-              <NavLink
-                // className="navlinks"
-                to={item.url}
-              >
-                {item.title}
-              </NavLink>
-            </li>
-          );
-        })}
+        <li onClick={() => setClicked(false)}>
+          <NavLink to="/my-pokemon">My Pokemon List</NavLink>
+        </li>
       </ul>
     </nav>
   );

@@ -70,7 +70,8 @@ const Index = () => {
               font-weight: bold;
             `}
           >
-            You haven't caught any pokemon, try to catch one
+            You haven't caught any pokemon, <br />
+            Try to catch one!
           </span>
         </div>
       ) : (
@@ -83,35 +84,33 @@ const Index = () => {
           >
             My Pokémon List
           </h2>
-          <Row>
-            {dataOwnedPokemon.map((item, idx) => {
-              return (
-                <Col sm={12} md={6} lg={4} xl={3}>
+          <div
+            css={css`
+              width: 100%;
+              display: grid;
+              margin: 10px auto;
+              grid-template-columns: repeat(auto-fit, minmax(120px, 170px));
+              justify-content: center;
+              grid-gap: 10px;
+              font-size: 1.5rem;
+              @media (min-width: 960px) {
+                justify-content: center;
+                font-size: 20px;
+              }
+            `}
+          >
+            {dataOwnedPokemon
+              // .slice((page - 1) * length, page * length)
+              .map((item, idx) => {
+                return (
                   <Card
                     key={idx}
                     data={item}
                     disabled={isRelease}
                     onClick={() => releasePokemon(item)}
                   />
-                </Col>
-              );
-            })}
-          </Row>
-          <div
-            css={css`
-              margin-top: 20px;
-              margin-bottom: 20px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            `}
-          >
-            <Pagination
-              page={page}
-              length={length}
-              total={total}
-              togglePage={setPage}
-            />
+                );
+              })}
           </div>
         </>
       )}

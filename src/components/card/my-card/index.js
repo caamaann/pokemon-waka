@@ -17,7 +17,11 @@ const Index = ({ data, onClick, disabled }) => {
           transform: scale(1.05);
         }
         border-radius: 10px;
-        ${!isErrorImg ? `background-image: url("${BackgroundImg}");` : ""}
+        ${!isErrorImg
+          ? `background-image: url("${BackgroundImg}");
+          background-size: contain;
+          background-repeat: no-repeat;`
+          : ""}
       `}
     >
       <div
@@ -48,49 +52,23 @@ const Index = ({ data, onClick, disabled }) => {
         >
           <div
             css={css`
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              grid-gap: 20px;
-              justify-content: space-between;
-              color: #919191;
-              font-size: 1rem;
-              @media (min-width: 960px) {
-                font-size: 12px;
-              }
-            `}
-          >
-            <span>Name</span>
-            <span
-              css={css`
-                text-align: right;
-              `}
-            >
-              Nickname
-            </span>
-          </div>
-          <div
-            css={css`
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              grid-gap: 20px;
-              justify-content: space-between;
+              text-align: center;
               font-weight: 600;
+              font-size: 1.25rem;
               margin-bottom: 12px;
-              font-size: 1.5rem;
               @media (min-width: 960px) {
-                font-size: 20px;
+                font-size: 1rem;
               }
             `}
           >
-            <span>
-              {data.name.charAt(0).toUpperCase() + data.name.slice(1)}
-            </span>
+            <span>{data.nickname}</span>
+            <br />
             <span
               css={css`
-                text-align: right;
+                font-weight: 400;
               `}
             >
-              {data.nickname}
+              ({data.name.charAt(0).toUpperCase() + data.name.slice(1)})
             </span>
           </div>
           <div>

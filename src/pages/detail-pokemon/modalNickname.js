@@ -19,7 +19,7 @@ const Index = ({ show, toogle, title, data }) => {
   const myPokemon = getMyPokemon().owned_pokemon;
   const [isChecking, setIsChecking] = useState(false);
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     setIsChecking(true);
     const param = {
       local_id: UUID(),

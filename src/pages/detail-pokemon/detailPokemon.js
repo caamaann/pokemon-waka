@@ -15,6 +15,7 @@ import Modal from "./modalNickname";
 import { Table } from "react-bootstrap";
 import Pagination from "../../components/pagination";
 import ErrorState from "../../components/errorState";
+import { Accordion } from "react-bootstrap";
 
 const GET_POKEMON = gql`
   query pokemon($name: String!) {
@@ -100,9 +101,10 @@ const Index = ({ location }) => {
     console.log("Data: ", data);
   }
 
-  const catchPokemon = (name) => {
+  const catchPokemon = async (name) => {
     setCatching(true);
-    let isFailed = Probability() === 0;
+    let isFailed = Probability();
+    await delay();
     if (isFailed) {
       toastError("Pokemon Escape, Try Again!");
     } else {
@@ -110,6 +112,14 @@ const Index = ({ location }) => {
       setModalShow(true);
     }
     setCatching(false);
+  };
+
+  const delay = (delayInms = 2000) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(2);
+      }, delayInms);
+    });
   };
 
   const Type = ({ title }) => {
@@ -141,6 +151,24 @@ const Index = ({ location }) => {
           text-align: center;
           font-size: 1rem;
           padding: 10px;
+        `}
+      >
+        {title.charAt(0).toUpperCase() + title.slice(1)}
+      </div>
+    );
+  };
+
+  const Move = ({ title }) => {
+    return (
+      <div
+        css={css`
+          border-radius: 12px;
+          border: 2px solid #dfdfdf;
+          width: fit-content;
+          text-align: center;
+          font-size: 1rem;
+          padding: 10px;
+          margin: 10px;
         `}
       >
         {title.charAt(0).toUpperCase() + title.slice(1)}
@@ -230,9 +258,6 @@ const Index = ({ location }) => {
         <>
           <div
             css={css`
-              display: flex;
-              justify-content: center;
-              align-items: end;
               font-weight: 600;
               text-align: center;
               margin-right: 20px;
@@ -244,48 +269,47 @@ const Index = ({ location }) => {
           >
             <span
               css={css`
-                margin-right: 20px;
-              `}
-            >
-              {pokemon_name}
-            </span>
-            <span
-              css={css`
                 color: #919191;
                 font-weight: 500;
               `}
             >
               #{("000" + pokemon.id.toString()).slice(-4)}
             </span>
+            <br />
+            <span>{pokemon_name}</span>
           </div>
           <div
             css={css`
               width: 100%;
-              display: grid;
-              margin: 20px auto;
-              grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-              grid-gap: 20px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
               font-size: 1.5rem;
               @media (min-width: 960px) {
                 font-size: 20px;
-                grid-template-columns: 1fr 1fr;
               }
             `}
           >
             <div
               css={css`
                 ${!isErrorImg
-                  ? `background-image: url("${BackgroundImg}");`
+                  ? `background-image: url("${BackgroundImg}");
+                  background-size: contain;
+                  background-repeat: no-repeat;
+                  background-position: right;`
                   : ""}
                 background-color: ${color[pokemon.types[0].type.name]};
                 border-radius: 12px;
                 margin-bottom: 1rem;
                 height: fit-content;
-                min-height: 350px;
+                width: 100%;
+                text-align: center;
+                margin-top: 20px;
               `}
             >
               <img
-                width="100%"
+                width="250px"
+                height="250px"
                 src={image_pokemon}
                 alt={pokemon_name}
                 onError={(e) => {
@@ -297,100 +321,119 @@ const Index = ({ location }) => {
               />
             </div>
             <div>
-              <Button
-                onClick={() => catchPokemon(pokemon_name)}
-                disabled={catching}
-                data-testid="btnCatchPokemon"
-              >
-                Catch Pokemon {pokemon_name}
-              </Button>
               <div
                 css={css`
                   display: flex;
-                  flex-direction: column;
+                  justify-content: space-around;
                   margin-top: 20px;
+                  padding: 0 20px;
+                  @media (min-width: 960px) {
+                    padding: 0 35%;
+                  }
                 `}
               >
-                <span>Type</span>
                 <div
                   css={css`
-                    width: 100%;
-                    display: grid;
-                    margin: 10px auto;
-                    grid-template-columns: repeat(
-                      auto-fit,
-                      minmax(60px, 100px)
-                    );
-                    grid-gap: 20px;
+                    text-align: center;
                   `}
                 >
-                  {pokemon.types.map((item, idx) => (
-                    <Type title={item.type.name} key={idx} />
-                  ))}
+                  <span>Height</span>
+                  <p
+                    css={css`
+                      font-size: 1.25rem;
+                      @media (min-width: 960px) {
+                        font-size: 1rem;
+                      }
+                    `}
+                  >
+                    {pokemon.height / 10} m
+                  </p>
+                </div>
+                <div
+                  css={css`
+                    text-align: center;
+                  `}
+                >
+                  <span>Weight</span>
+                  <p
+                    css={css`
+                      font-size: 1.25rem;
+                      @media (min-width: 960px) {
+                        font-size: 1rem;
+                      }
+                    `}
+                  >
+                    {pokemon.weight / 10} kg
+                  </p>
                 </div>
               </div>
               <div
                 css={css`
-                  display: flex;
-                  flex-direction: column;
-                  margin-top: 20px;
+                  @media (min-width: 960px) {
+                    display: flex;
+                    justify-content: space-around;
+                  }
                 `}
               >
-                <span>Ability</span>
                 <div
                   css={css`
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    margin-top: 20px;
                     width: 100%;
-                    display: grid;
-                    margin: 10px auto;
-                    grid-template-columns: repeat(
-                      auto-fit,
-                      minmax(60px, 150px)
-                    );
-                    grid-gap: 20px;
+                    @media (min-width: 960px) {
+                      border-right: 1px solid #dfdfdf;
+                    }
                   `}
                 >
-                  {pokemon.abilities.map((item, idx) => (
-                    <Ability title={item.ability.name} key={idx} />
-                  ))}
+                  <span>Type</span>
+                  <div
+                    css={css`
+                      width: 100%;
+                      display: grid;
+                      margin: 10px auto;
+                      grid-template-columns: repeat(
+                        auto-fit,
+                        minmax(60px, 100px)
+                      );
+                      grid-gap: 20px;
+                      justify-content: center;
+                    `}
+                  >
+                    {pokemon.types.map((item, idx) => (
+                      <Type title={item.type.name} key={idx} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div
-                css={css`
-                  display: flex;
-                  flex-direction: column;
-                  margin-top: 20px;
-                `}
-              >
-                <span>Height</span>
-                <p
+                <div
                   css={css`
-                    font-size: 1.5rem;
-                    @media (min-width: 960px) {
-                      font-size: 20px;
-                    }
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    margin-top: 20px;
+                    width: 100%;
                   `}
                 >
-                  {pokemon.height} dm
-                </p>
-              </div>
-              <div
-                css={css`
-                  display: flex;
-                  flex-direction: column;
-                  margin-top: 20px;
-                `}
-              >
-                <span>Weight</span>
-                <p
-                  css={css`
-                    font-size: 1.5rem;
-                    @media (min-width: 960px) {
-                      font-size: 20px;
-                    }
-                  `}
-                >
-                  {pokemon.weight} hg
-                </p>
+                  <span>Ability</span>
+                  <div
+                    css={css`
+                      width: 100%;
+                      display: grid;
+                      margin: 10px auto;
+                      grid-template-columns: repeat(
+                        auto-fit,
+                        minmax(60px, 150px)
+                      );
+                      grid-gap: 20px;
+                      justify-content: center;
+                    `}
+                  >
+                    {pokemon.abilities.map((item, idx) => (
+                      <Ability title={item.ability.name} key={idx} />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -398,6 +441,8 @@ const Index = ({ location }) => {
                 display: flex;
                 flex-direction: column;
                 margin-top: 20px;
+                margin-bottom: 30px;
+                text-align: center;
               `}
             >
               <span>Moves</span>
@@ -406,9 +451,45 @@ const Index = ({ location }) => {
                   width: 100%;
                 `}
               >
-                {createTable(pokemon.moves)}
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Show Moves</Accordion.Header>
+                    <Accordion.Body
+                      css={css`
+                        text-align: left;
+                        font-size: 1rem;
+                      `}
+                    >
+                      {pokemon.moves.map((item) => (
+                        <p
+                          css={css`
+                            border-bottom: 1px solid #dfdfdf;
+                          `}
+                        >
+                          {item.move.name}
+                        </p>
+                      ))}
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
               </div>
             </div>
+          </div>
+          <div
+            css={css`
+              position: sticky;
+              bottom: 20px;
+              text-align: center;
+              z-index: 99;
+            `}
+          >
+            <Button
+              onClick={() => catchPokemon(pokemon_name)}
+              disabled={catching}
+              data-testid="btnCatchPokemon"
+            >
+              {catching ? " Catching..." : `Catch ${pokemon_name}`}
+            </Button>
           </div>
         </>
       )}
