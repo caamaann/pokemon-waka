@@ -1,11 +1,15 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Index from "./pages";
 import Layout from "./components/layout";
-import DetailPokemon from "./pages/detailPokemon";
 import { ToastContainer } from "react-toastify";
 
+// style
 import "./assets/style/style.css";
 import "react-toastify/dist/ReactToastify.css";
+
+// pages
+import Index from "./pages/list-pokemon";
+import DetailPokemon from "./pages/detail-pokemon/detailPokemon";
+import MyPokemon from "./pages/my-pokemon";
 
 function App() {
   return (
@@ -21,14 +25,15 @@ function App() {
         draggable
         pauseOnHover
       />
-      <Router>
-        <Switch>
-          <Layout>
-            <Route path="/" exact component={Index} />
-            <Route path="/:name" exact component={DetailPokemon} />
-          </Layout>
-        </Switch>
-      </Router>
+      {/* <Router> */}
+      <Switch>
+        <Layout>
+          <Route path="/my-pokemon" component={MyPokemon} />
+          <Route path="/detail-pokemon/:name" exact component={DetailPokemon} />
+          <Route path="/" exact component={Index} />
+        </Layout>
+      </Switch>
+      {/* </Router> */}
     </>
   );
 }

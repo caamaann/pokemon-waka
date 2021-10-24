@@ -10,17 +10,20 @@ const NavLink = (props) => {
       css={css`
         color: white;
         text-decoration: none;
-        padding: 0.5rem 1rem;
         transition: all 0.5s ease;
         &:hover {
           color: #d5a94e;
           border-bottom: 5px solid #d5a94e;
         }
-        @media (max-width: 960px) {
-          text-align: center;
-          padding: 2rem;
-          width: 100%;
-          display: table;
+        text-align: center;
+        padding: 2rem;
+        width: 100%;
+        display: table;
+        @media (min-width: 960px) {
+          padding: 0.5rem 1rem;
+          text-align: left;
+          width: border-box;
+          display: inline;
         }
         ${isActive
           ? `

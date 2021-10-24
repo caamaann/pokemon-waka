@@ -11,10 +11,10 @@ const Index = ({ total = 0, page, togglePage }) => {
     <ReactPaginate
       pageRangeDisplayed={2}
       marginPagesDisplayed={1}
-      previousLabel={<span className="material-icons-round">arrow_back</span>}
-      previousLinkClassName={"page-link previous-page-link"}
-      nextLabel={<span className="material-icons-round">arrow_forward</span>}
-      nextLinkClassName={"page-link next-page-link"}
+      previousLabel="<"
+      previousLinkClassName={"page-link"}
+      nextLabel=">"
+      nextLinkClassName={"page-link"}
       pageCount={total}
       containerClassName={"pagination justify-content-end"}
       pageClassName={"page-item"}

@@ -1,6 +1,6 @@
 const MenuItems = [
   {
-    title: "My Pokemon",
+    title: "My Pokemon List",
     url: "/my-pokemon",
   },
 ];

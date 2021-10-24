@@ -1,23 +1,17 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import BackgroundImg from "../../assets/img/background.png";
+import BackgroundImg from "../../../assets/img/background.png";
+import { Button } from "react-bootstrap";
 
-const Index = (props) => {
+const Index = ({ data, onClick, disabled }) => {
   const [isErrorImg, setIsErrorImg] = useState(false);
-  const history = useHistory();
-  const { id, total = 0 } = props;
-
-  let number = ("000" + id.toString()).slice(-4);
-
   return (
     <div
       css={css`
         margin-top: 12px;
         margin-bottom: 12px;
-        cursor: pointer;
         transition: transform 0.5s;
         &:hover {
           transform: scale(1.05);
@@ -25,11 +19,6 @@ const Index = (props) => {
         border-radius: 10px;
         ${!isErrorImg ? `background-image: url("${BackgroundImg}");` : ""}
       `}
-      onClick={() =>
-        history.push(`/detail-pokemon/${props.name}`, {
-          image_pokemon: props.artwork,
-        })
-      }
     >
       <div
         css={css`
@@ -41,8 +30,8 @@ const Index = (props) => {
       >
         <img
           width="100%"
-          src={props.artwork}
-          alt={props.name}
+          src={data.image_pokemon}
+          alt={data.nickname}
           onError={(e) => {
             setIsErrorImg(true);
             e.target.onerror = null;
@@ -59,7 +48,9 @@ const Index = (props) => {
         >
           <div
             css={css`
-              display: flex;
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              grid-gap: 20px;
               justify-content: space-between;
               color: #919191;
               font-size: 1rem;
@@ -68,20 +59,23 @@ const Index = (props) => {
               }
             `}
           >
-            <span>#{number}</span>
+            <span>Name</span>
             <span
               css={css`
                 text-align: right;
               `}
             >
-              Total Owned
+              Nickname
             </span>
           </div>
           <div
             css={css`
-              display: flex;
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              grid-gap: 20px;
               justify-content: space-between;
               font-weight: 600;
+              margin-bottom: 12px;
               font-size: 1.5rem;
               @media (min-width: 960px) {
                 font-size: 20px;
@@ -89,15 +83,28 @@ const Index = (props) => {
             `}
           >
             <span>
-              {props.name.charAt(0).toUpperCase() + props.name.slice(1)}
+              {data.name.charAt(0).toUpperCase() + data.name.slice(1)}
             </span>
             <span
               css={css`
                 text-align: right;
               `}
             >
-              {total}
+              {data.nickname}
             </span>
+          </div>
+          <div>
+            <Button
+              type="button"
+              variant="outline-danger"
+              onClick={onClick}
+              css={css`
+                width: 100%;
+              `}
+              disabled={disabled}
+            >
+              Release
+            </Button>
           </div>
         </div>
       </div>

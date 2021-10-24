@@ -1,13 +1,14 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
-import Container from "../components/container";
-import Card from "../components/card";
+import Container from "../../components/container";
+import Card from "../../components/card";
 import { Row, Col } from "react-bootstrap";
-import Loader from "../components/loader";
+import Loader from "../../components/loader";
 import { jsx, css } from "@emotion/react";
-import Pagination from "../components/pagination";
+import Pagination from "../../components/pagination";
+import { getMyPokemon } from "../../utils/myPokemon";
 
 const GET_POKEMONS = gql`
   query pokemons($limit: Int, $offset: Int) {
@@ -31,7 +32,7 @@ const GET_POKEMONS = gql`
 
 const Index = () => {
   const [page, setPage] = useState(1);
-  const localStorageKey = process.env.REACT_APP_LOCAL_KEY;
+  const dataOwnedPokemon = getMyPokemon();
   const length = 8;
   const {
     loading,
@@ -47,19 +48,6 @@ const Index = () => {
   let total = 0;
   if (dataAllPokemon) {
     total = Math.ceil(dataAllPokemon.pokemons.count / length);
-  }
-
-  let dataOwnedPokemon = [];
-  if (typeof Storage !== "undefined") {
-    if (localStorage.getItem(localStorageKey) === null) {
-      localStorage.setItem(
-        localStorageKey,
-        JSON.stringify({ owned_pokemon: [] })
-      );
-    }
-    dataOwnedPokemon = JSON.parse(localStorage.getItem(localStorageKey));
-  } else {
-    alert("Browser yang Anda gunakan tidak mendukung Web Storage");
   }
 
   return (
@@ -79,6 +67,14 @@ const Index = () => {
         <p>Error: {error}</p>
       ) : (
         <>
+          <h2
+            css={css`
+              text-align: center;
+              font-weight: bold;
+            `}
+          >
+            Pokédex
+          </h2>
           <Row>
             {dataAllPokemon.pokemons.results.map((item, idx) => {
               let totalOwned = dataOwnedPokemon.owned_pokemon?.filter(

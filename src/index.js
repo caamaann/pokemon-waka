@@ -1,5 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+
+import { Router } from "react-router";
+import { history } from "./utils/useHistory";
+
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -13,7 +17,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <Router history={history}>
+      <App />
+    </Router>
   </ApolloProvider>,
   document.getElementById("root")
 );
