@@ -1,14 +1,15 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState, useEffect } from "react";
+// eslint-disable-next-line
+import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import Container from "../../components/container";
 import Card from "../../components/card";
-import { Row, Col } from "react-bootstrap";
 import Loader from "../../components/loader";
 import { jsx, css } from "@emotion/react";
 import Pagination from "../../components/pagination";
 import { getMyPokemon } from "../../utils/myPokemon";
+import ErrorState from "../../components/errorState";
 
 const GET_POKEMONS = gql`
   query pokemons($limit: Int, $offset: Int) {
@@ -64,7 +65,7 @@ const Index = () => {
           <Loader />
         </div>
       ) : error ? (
-        <p>Error: {error}</p>
+        <ErrorState />
       ) : (
         <>
           <h2
@@ -75,27 +76,38 @@ const Index = () => {
           >
             Pokédex
           </h2>
-          <Row>
+          <div
+            css={css`
+              width: 100%;
+              display: grid;
+              margin: 20px auto;
+              grid-template-columns: repeat(auto-fit, minmax(250px, 400px));
+              grid-gap: 20px;
+              font-size: 1.5rem;
+              @media (min-width: 960px) {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 260px));
+                font-size: 20px;
+              }
+            `}
+          >
             {dataAllPokemon.pokemons.results.map((item, idx) => {
               let totalOwned = dataOwnedPokemon.owned_pokemon?.filter(
                 (pokemon) => pokemon.name === item.name
               ).length;
 
               return (
-                <Col sm={12} md={6} lg={4} xl={3}>
-                  <Card
-                    key={idx}
-                    id={item.id}
-                    image={item.image}
-                    name={item.name}
-                    artwork={item.artwork}
-                    dreamworld={item.dreamworld}
-                    total={totalOwned}
-                  />
-                </Col>
+                <Card
+                  key={idx}
+                  id={item.id}
+                  image={item.image}
+                  name={item.name}
+                  artwork={item.artwork}
+                  dreamworld={item.dreamworld}
+                  total={totalOwned}
+                />
               );
             })}
-          </Row>
+          </div>
           <div
             css={css`
               margin-top: 20px;

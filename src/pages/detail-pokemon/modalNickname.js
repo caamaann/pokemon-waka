@@ -13,14 +13,13 @@ const Index = ({ show, toogle, title, data }) => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm();
   const myPokemon = getMyPokemon().owned_pokemon;
   const [isChecking, setIsChecking] = useState(false);
 
-  const onSubmit = async (values) => {
+  const onSubmit = (values) => {
     setIsChecking(true);
     const param = {
       local_id: UUID(),
@@ -34,9 +33,6 @@ const Index = ({ show, toogle, title, data }) => {
       })
       .indexOf(values.nickname);
 
-    await delay(1000);
-    setIsChecking(false);
-
     if (isUnique === -1) {
       const savedData = [...myPokemon, param];
       updateMyPokemon(savedData);
@@ -46,10 +42,7 @@ const Index = ({ show, toogle, title, data }) => {
     } else {
       toastError("Nickname already used!");
     }
-  };
-
-  const delay = async (ms = 1000) => {
-    return await new Promise((resolve) => setTimeout(resolve, ms));
+    setIsChecking(false);
   };
 
   return (
@@ -101,10 +94,16 @@ const Index = ({ show, toogle, title, data }) => {
               reset();
             }}
             disabled={isChecking}
+            data-testid="btnCancelCatchPokemon"
           >
             Release
           </Button>
-          <Button variant="outline-primary" type="submit" disabled={isChecking}>
+          <Button
+            variant="outline-primary"
+            type="submit"
+            disabled={isChecking}
+            data-testid="btnGiveNicknamePokemon"
+          >
             {isChecking && (
               <span
                 class="spinner-border spinner-border-sm"
