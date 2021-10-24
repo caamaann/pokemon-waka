@@ -11,7 +11,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://graphql-pokeapi.vercel.app/api/graphql",
+  // uri: "https://graphql-pokeapi.vercel.app/api/graphql",
+  uri: "https://graphql-pokeapi.graphcdn.app",
   cache: new InMemoryCache(),
 });
 

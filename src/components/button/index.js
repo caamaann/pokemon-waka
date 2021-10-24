@@ -15,7 +15,7 @@ const Button = ({ leftIcon, rightIcon, children, type, onClick, disabled }) => {
           rgba(2, 2, 70, 1) 100%
         );
         position: relative;
-        border-radius: 8px;
+        border-radius: 30px;
         display: inline-block;
         cursor: pointer;
         color: #ffffff;
@@ -33,10 +33,6 @@ const Button = ({ leftIcon, rightIcon, children, type, onClick, disabled }) => {
             rgba(2, 2, 70, 0.95) 100%
           );
         }
-        width: 100%;
-        @media (min-width: 960px) {
-          width: initial;
-        }
       `}
     >
       {leftIcon && (
@@ -51,7 +47,7 @@ const Button = ({ leftIcon, rightIcon, children, type, onClick, disabled }) => {
       )}
       {disabled && (
         <span
-          class="spinner-border spinner-border-sm"
+          className="spinner-border spinner-border-sm"
           role="status"
           aria-hidden="true"
         ></span>
